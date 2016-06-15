@@ -1,33 +1,17 @@
 package essent
 package credit
 
-import java.util.Date
+import java.util.UUID._
+import java.lang.System._
 
 case class MT940Transfer
 (
-  amount:               Amount,
-  statementNumber:      StatementNumber,
-  mutationCode:         MutationCode,
-  accountNumber:        IBAN,
-  contraAccountNumber:  IBAN,
-  transactionTypeID:    TransactionTypeID,
-  date:                 Date,
-  reference:            String,              // reference code or value?
-  mt940DocumentID:      MT940DocumentID,     // move to containing object?
-  transferFncAmount:    Amount,
-  ledgerID:             LedgerID,
-  name:                 String,              // which name?
-  reversal:             Boolean,
-  bic:                  BIC,
-  reversalCode:         ReversalCode,
-  paymentDescription:   String,
-  dontMatch:            Boolean,             // attribute of a transfer?
-  transferDate:         Date,
-  description:          String
-)
-
-case class MT940Document
-(
-  saldoEndDate:         Date,
-  transfers:            Seq[MT940Transfer]
+  amount:    Amount,
+  source:    IBAN,
+  target:    IBAN,
+  date:      Date,
+  ledgerID:  LedgerID,
+  timestamp: Long       = currentTimeMillis,
+  uuid:      UUID       = randomUUID,
+  version:   String     = "0.0.1"   
 )

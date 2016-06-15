@@ -1,8 +1,6 @@
 package essent
 package credit
 
-import java.util.Date
-
 sealed trait JournalType
 case object BankEntry    extends JournalType
 case object Reversal     extends JournalType
@@ -15,10 +13,10 @@ case class JournalEntryLine
 (
   amount:           Amount,
   description:      String,
-  costCenterID:     CostCenterID,
+  costCenterID:     CostCenterID,             // deleted? (kostenplaats)
   accountNumber:    Long,                     // not an IBAN/String?
   valueDate:        Date,
-  profitCenterID:   ProfitCenterID,
+  profitCenterID:   ProfitCenterID,           // deleted?
   vatCode:          VatCode,
   costWBS:          String,                   // code?
   gridOperator:     String,                   // code?
