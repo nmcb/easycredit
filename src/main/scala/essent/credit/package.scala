@@ -9,10 +9,12 @@ package object credit {
   type Date              = String                // e.g. 2016-07-24, i.e. `YYYY-MM-DD` representation
 
   // Shared
-  type LedgerID          = UUID                  
 
-  // MT940
-  type MT940             = Seq[MT940Transfer]    
+  /** TODO The underlying value must support matching a JournalID */
+  type Reference         = String
+
+  // MT940 / ABNAmro
+  type MT940             = Seq[Transfer]
 
   // UFI
   type JournalID         = String       // validate domain
