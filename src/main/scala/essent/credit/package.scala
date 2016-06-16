@@ -1,5 +1,7 @@
 package essent
 
+import essent.credit.external.Transfer
+
 package object credit {
 
   // Common

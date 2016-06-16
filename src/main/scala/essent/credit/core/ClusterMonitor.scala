@@ -35,11 +35,10 @@ object ClusterMonitor {
 
     val config = ConfigFactory
       .parseString(s"akka.remote.netty.tcp.port=$port")
-      .withFallback(ConfigFactory.parseString(s"akka.cluster.roles = [$CoreRole]"))
+      .withFallback(ConfigFactory.parseString(s"akka.cluster.roles = [$CoreClusterRole]"))
       .withFallback(ConfigFactory.load("application"))
 
     val system = ActorSystem(CreditCluster, config)
     system.actorOf(Props[ClusterMonitor], name = s"monitor-$port")
   }
-
 }

@@ -2,12 +2,11 @@ package essent
 package credit
 
 object ClusterDefinitions {
-  val CreditCluster            = "credit"
+  val CreditCluster = "credit"
 
-  val ExternalRole             = "external"
-  val CoreRole                 = "core"
-  val BankActorName            = "bank"
+  val CoreClusterRole  = "core"
+  val CreditRouterName = "creditRouter"
 
-  val BankAdaptorRouterName    = "bankAdaptorRouter"
-  val BankAdaptorActorName     = "ABNAmro"
+  val ExternalClusterRole = "external"
+  val BankActorName       = "bank"
 }
