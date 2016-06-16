@@ -4,7 +4,7 @@ import akka.actor._
 import akka.cluster.Cluster
 import com.typesafe.config.ConfigFactory
 import essent.credit.ClusterDefinitions
-import essent.credit.core.Credit.DefaultCreditProvider
+import essent.credit.core.Core.DefaultCreditProvider
 
 
 class Bank extends Actor with ActorLogging {

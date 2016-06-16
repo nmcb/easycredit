@@ -31,7 +31,7 @@ object ClusterMonitor {
 
   def main(args: Array[String]): Unit = {
 
-    val port = if (args.isEmpty) "0" else args(0)
+    val port = if (args.isEmpty) "2552" else args(0)
 
     val config = ConfigFactory
       .parseString(s"akka.remote.netty.tcp.port=$port")

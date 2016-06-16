@@ -20,19 +20,9 @@ class Credit extends Actor with ActorLogging {
 
 
 object Credit {
-
-  trait CreditProvider {
-    def newCredit(context: ActorContext): ActorRef
-  }
-
-  trait DefaultCreditProvider {
-    def newCredit(context: ActorContext): ActorRef = context.actorOf(FromConfig.props(), name = CreditRouterName)
-  }
-
-
   def main(args: Array[String]): Unit = {
 
-    val port = if (args.isEmpty) "0" else args(0)
+    val port = if (args.isEmpty) "2551" else args(0)
 
     val config = ConfigFactory
       .parseString(s"akka.remote.netty.tcp.port=$port")
