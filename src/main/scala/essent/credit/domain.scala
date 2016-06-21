@@ -1,9 +1,7 @@
-package essent.credit.external
+package essent.credit
 
 import java.lang.System._
 import java.util.UUID._
-
-import essent.credit._
 
 case class Transfer
 (
