@@ -7,10 +7,10 @@ import essent.credit.ClusterDefinitions._
 object Core {
 
   trait CreditProvider {
-    def newCredit(context: ActorContext): ActorRef
+    def newCreditRouter(context: ActorContext): ActorRef
   }
 
-  trait DefaultCreditProvider {
-    def newCredit(context: ActorContext): ActorRef = context.actorOf(FromConfig.props(), name = CreditRouterName)
+  trait DefaultCreditProvider extends CreditProvider {
+    def newCreditRouter(context: ActorContext): ActorRef = context.actorOf(FromConfig.props(), name = CreditRouterName)
   }
 }

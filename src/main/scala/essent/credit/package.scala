@@ -1,6 +1,6 @@
 package essent
 
-import essent.credit.external.Transfer
+import essent.credit.Transfer
 
 package object credit {
 

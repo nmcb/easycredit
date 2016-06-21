@@ -19,10 +19,10 @@ class ClusterMonitor extends Actor with ActorLogging {
   }
 
   def receive = {
-    case MemberUp(member)                      => log.info("Member is Up: {}", member.address)
-    case UnreachableMember(member)             => log.info("Member is Unreachable: {}", member)
-    case MemberRemoved(member, previousStatus) => log.info("Member is Removed: {} after {}", member.address, previousStatus)
-    case _: MemberEvent                        => // ignore
+    case MemberUp(member)                      => log.info("Member Up: {}", member.address)
+    case UnreachableMember(member)             => log.info("Member Unreachable: {}", member)
+    case MemberRemoved(member, previousStatus) => log.info("Member Removed: {} after {}", member.address, previousStatus)
+    case a: Any                                => log.error("Unknown: {}", a.toString)
   }
 }
 
@@ -39,6 +39,8 @@ object ClusterMonitor {
       .withFallback(ConfigFactory.load("application"))
 
     val system = ActorSystem(CreditCluster, config)
-    system.actorOf(Props[ClusterMonitor], name = s"monitor-$port")
+    Cluster(system) registerOnMemberUp {
+      system.actorOf(Props[ClusterMonitor], name = ClusterMonitorActorName)
+    }
   }
 }

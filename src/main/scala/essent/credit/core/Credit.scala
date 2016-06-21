@@ -1,8 +1,7 @@
 package essent.credit.core
 
-import akka.actor.{Actor, ActorContext, ActorLogging, ActorRef, ActorSystem, Props}
+import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
 import akka.cluster.Cluster
-import akka.routing.FromConfig
 import com.typesafe.config.ConfigFactory
 import essent.credit.Amount
 import essent.credit.ClusterDefinitions._
@@ -11,10 +10,10 @@ class Credit extends Actor with ActorLogging {
 
   val cluster = Cluster(context.system)
 
-  val amount: Amount = 0
+  var amount: Amount = 0.0
 
   def receive = {
-    case _ => log.info("CREDIT: {}", amount)
+    case msg: Any => log.info("CREDIT {} - {}", amount, msg)
   }
 }
 
@@ -31,6 +30,8 @@ object Credit {
 
 
     val system = ActorSystem(CreditCluster, config)
-    system.actorOf(Props[Credit] , name = "Credit")
+    Cluster(system) registerOnMemberUp {
+      system.actorOf(Props[Credit] , name = CreditActorName)
+    }
   }
 }
