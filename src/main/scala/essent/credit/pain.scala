@@ -1,7 +1,7 @@
 package essent
 package credit
 
-import java.util.Date
+import java.util.{Date => JDate}
 
 case class IncassoTransfer
 (
@@ -11,7 +11,7 @@ case class IncassoTransfer
   bic:                  BIC,                  // e.g. ABNANL2A
   name:                 String,               // e.g. MSM IT Solutions
   country:              String,               // e.g. NL, static?
-  mandateSignatureDate: Date,                 // e.g. 2013-05-12
+  mandateSignatureDate: JDate,                // e.g. Intended as the duration 2013-05-12
   transferDescription:  String,               // e.g. Factuur FN0001334
   endToEndID:           EndToEndID            // e.g. 033FN0001334, derived from invoice number?
 )
@@ -26,7 +26,7 @@ case object OOFF extends SequenceType         // unused?
 case class Incasso                            // Customer Direct Debit Initiation
 (                           
   id:                   MessageID,            // e.g. ESSENTB2B-DD-FRST-201503161200
-  dateTime:             Date,                 // e.g. 2016-06-09T12:09:22+00:00
+  dateTime:             JDate,                // e.g. Intended as the instant 2016-06-09T12:09:22+00:00
   iban:                 IBAN,                 // e.g. NL19ABNA0573066809
   name:                 String,               // e.g. Essent Zakelijk, static?
   country:              String,               // e.g. NL, static?
@@ -52,12 +52,12 @@ case class ExcassoTransfer
 case class Excasso                            // Customer Credit Transfer Initiation
 (
   id:                   MessageID,            // e.g. ESSENTB2B-SCT-201402021200
-  dateTime:             Date,                 // e.g. 2016-06-09T12:09:22+00:00
+  dateTime:             JDate,                // e.g. Intended as the instant 2016-06-09T12:09:22+00:00
   iban:                 IBAN,                 // e.g. NL19ABNA0573066809
   name:                 String,               // e.g. Essent Zakelijk, static?
   country:              String,               // e.g. NL, static?
   organisationID:       String,               // e.g. ESSENTB2B, static?
-  requestExecutionDate: Date,                 // e.g. 2016-06-10
+  requestExecutionDate: JDate,                // e.g. Intended as the duration 2016-06-10
   chargeBearerType:     String,               // e.g. SLEV, static?
   transfers:            Seq[ExcassoTransfer]  
 )

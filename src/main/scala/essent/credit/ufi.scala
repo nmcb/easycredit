@@ -1,7 +1,7 @@
 package essent
 package credit
 
-import java.util.Date
+import java.util.{Date => JDate}
 
 sealed trait JournalType
 case object BankEntry    extends JournalType
@@ -17,7 +17,7 @@ case class JournalEntryLine
   description:      String,
   costCenterID:     CostCenterID,
   accountNumber:    Long,                     // not an IBAN/String?
-  valueDate:        Date,
+  valueDate:        JDate,                    // TODO Q: Duration or Instant ? Resolution ?
   profitCenterID:   ProfitCenterID,
   vatCode:          VatCode,
   costWBS:          String,                   // code?
@@ -27,8 +27,8 @@ case class JournalEntryLine
 
 case class JournalEntry                       // line amounts total on zero, but how?
 (
-  entryDate:        Date,
-  creationDate:     Date,
+  entryDate:        JDate,                    // TODO Q: Duration or Instant ? Resolution ?
+  creationDate:     JDate,                    // TODO Q: Duration or Instant ? Resolution ?
   lines:            Seq[JournalEntryLine]
 )
 

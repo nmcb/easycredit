@@ -1,7 +1,7 @@
 package essent
 package credit
 
-import java.util.Date
+import java.util.{Date => JDate}
 
 case class MT940Transfer
 (
@@ -37,6 +37,6 @@ case class MT940Transfer
 
 case class MT940Document
 (
-  saldoEndDate:         Date,               // TODO Q: Resolution ? What is saldo ?
+  saldoEndDate:         JDate,              // TODO Q: Resolution ? What is saldo ?
   transfers:            Seq[MT940Transfer]  // TODO Q: Ordered ? Indexed ?
 )
