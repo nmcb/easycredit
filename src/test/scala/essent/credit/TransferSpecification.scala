@@ -73,7 +73,7 @@ object TransferSpecification {
     val bankAccountCountries: Seq[IBAN] = Array("BE", "NL", "DE")
 
     // TODO generate valid IBANs instead of the IBAN's country code.
-    val validIBANs      = Gen.oneOf(bankAccountCountries)
+    val validIBANs = Gen.oneOf(bankAccountCountries)
 
     /** assume a valid source IBAN sample from validIBANs */
     val validSourceIBAN = validIBANs.sample.get
@@ -87,6 +87,8 @@ object TransferSpecification {
       month <- Gen.choose(1, 12)
       day   <- Gen.choose(1, 31)
     } yield f"$year%04d-$month%02d-$day%02d"
+
+    /** assume a valid value date sample from validValueDates */
     val validValueDate = validValueDates.sample.get
 
     /** assume invalid value dates to violate ISO-8601's YYY-MM-DD format */
