@@ -34,10 +34,12 @@ case class Transfer private
   source: IBAN,
   target: IBAN,
 
-  /** The date the value was transferred, resolution in days,
+  /** The date the value was transferred, resolution in days. The
+    * date is to be represented in `yyyy-MM-dd` format according
+    * to GMT time as specified by ISO-8601.    *
     *
     * TODO Q: Which date is this in MT940, value, entry or book ?
-    * TODO Q: Is the resolution correct ?
+    * TODO Q: Is the representation calculated correct ?
     * TODO Q: Which timezone must be used; static or dynamic ?
     * TODO Q: What are the range rules; inclusive, exclusive ?
     */
@@ -55,6 +57,13 @@ case class Transfer private
     */
   reference: Reference
 ) extends Event {
-  require (value > 0, s"should have non-zero, positive value: ${value}")
-  require (source != target, s"source and target should not be equal: ${source}")
+  import Transfer._
+  require (value > 0, s"should have non-zero, positive value: '${value}'")
+  require (source != target, s"source and target should not be equal: '${source}'")
+  require (isValidValueDate(valueDate), s"valueDate should match YYYY-MM-DD: '${valueDate}'")
+}
+
+object Transfer {
+  val REG_YYYY_MM_DD = """([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])""".r
+  def isValidValueDate(date: Date) = REG_YYYY_MM_DD.findFirstIn(date).isDefined
 }
