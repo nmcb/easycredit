@@ -60,7 +60,7 @@ object TransferSpecification {
     /** assume unit transfer value as an amount of 0.01 euro */
     val unitValue: Amount = 1
 
-    /** assume valid transfer values in the range of 0,01 to 1.000.000,00 euro */
+    /** assume valid transfer values in the range of 0.01 to 1,000,000.00 euro */
     val validValues = Gen.choose[Amount](unitValue, 100000000)
 
     /** assume a valid transfer value sample from validValues */
@@ -70,10 +70,13 @@ object TransferSpecification {
     val invalidValues = Table[Amount]("value", 0, -1, Long.MinValue)
 
     /** assume transfers between bank accounts located in either the BE, NL or DE */
-    val bankAccountCountries: Seq[IBAN] = Array("BE", "NL", "DE")
+    val bankAccountCountries: Seq[String] = Array("BE", "NL", "DE")
 
     // TODO generate valid IBANs instead of the IBAN's country code.
-    val validIBANs = Gen.oneOf(bankAccountCountries)
+    val validIBANs = for {
+      countryCode    <- Gen.oneOf(bankAccountCountries)
+      sequenceNumber <- Gen.choose[Int](0, 99)
+    } yield f"$countryCode%s$sequenceNumber%02d"
 
     /** assume a valid source IBAN sample from validIBANs */
     val validSourceIBAN = validIBANs.sample.get
