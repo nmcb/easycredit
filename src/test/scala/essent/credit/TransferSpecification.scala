@@ -18,7 +18,7 @@ class TransferSpecification extends PropSpec with PropertyChecks {
           val transfer = Transfer(value, source, target, valueDate, "reference")
           transfer.value should be > zeroValue
           transfer.source should not be transfer.target
-          isValidValueDate(transfer.valueDate) should be (true)
+          isValidDateLiteral(transfer.valueDate) should be (true)
         }
       }
     }
