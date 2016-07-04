@@ -16,7 +16,7 @@ abstract class Event {
 
 case class Transfer
 (
-  /** The transferred value; non-zero and positive.
+  /** The transferred value; positive.
     *
     * TODO Q: Do we need to register currency, e.g `EUR` ?
     * TODO Q: Do we require floating point arithmetic ?
