@@ -24,7 +24,7 @@ class TransferSpecification extends PropSpec with PropertyChecks {
     }
   }
 
-  property("value should be non-zero, positive") {
+  property("value should be, positive non-zero") {
     forAll (invalidValues) { (value: Amount) =>
       an[IllegalArgumentException] should be thrownBy {
         Transfer(value, validSourceIBAN, validTargetIBAN, validValueDate, "reference")
