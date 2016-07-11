@@ -6,37 +6,37 @@ import org.scalatest.prop.PropertyChecks
 import org.scalatest.Matchers._
 import org.scalatest.prop.Tables.Table
 
-class TransferSpecification extends PropSpec with PropertyChecks {
+class PaymentSpecification extends PropSpec with PropertyChecks {
 
-  import TransferSpecification.Assumptions._
-  import Transfer._
+  import PaymentSpecification.Assumptions._
+  import Payment._
 
-  property("transfer should be constructable with valid parameters") {
-    forAll (validValues, validIBANs, validIBANs, validValueDates) {
-      (value: Amount, source: IBAN, target: IBAN, valueDate: Date) => {
+  property("payment should be constructable with valid parameters") {
+    forAll (validAmounts, validIBANs, validIBANs, validValueDates) {
+      (amount: Amount, source: IBAN, target: IBAN, valueDate: Date) => {
         whenever(source != target) {
-          val transfer = Transfer(value, source, target, valueDate, "reference")
-          transfer.value should be > zeroValue
-          transfer.source should not be transfer.target
-          isValidDateLiteral(transfer.valueDate) should be (true)
+          val payment = Payment(amount, source, target, valueDate, "reference")
+          payment.amount should be > zeroAmount
+          payment.source should not be payment.target
+          isValidDateLiteral(payment.valueDate) should be (true)
         }
       }
     }
   }
 
-  property("value should be, positive non-zero") {
-    forAll (invalidValues) { (value: Amount) =>
+  property("amounts must be positive and non-zero") {
+    forAll (invalidAmounts) { (amount: Amount) =>
       an[IllegalArgumentException] should be thrownBy {
-        Transfer(value, validSourceIBAN, validTargetIBAN, validValueDate, "reference")
+        Payment(amount, validSourceIBAN, validTargetIBAN, validValueDate, "reference")
       }
     }
   }
 
-  property("source and target should not be equal") {
+  property("source and target may not be equal") {
     forAll (validIBANs) { (target: IBAN) =>
       an[IllegalArgumentException] should be thrownBy {
         val source = target
-        Transfer(validValue, source, target, "0000-01-01", "reference")
+        Payment(validAmount, source, target, "0000-01-01", "reference")
       }
     }
   }
@@ -44,32 +44,32 @@ class TransferSpecification extends PropSpec with PropertyChecks {
   property("value date must be represented in `YYYY-MM-DD` format") {
     forAll (invalidValueDates) { (valueDate: Date) =>
       an[IllegalArgumentException] should be thrownBy {
-        Transfer(unitValue, validSourceIBAN, validTargetIBAN, valueDate, "reference")
+        Payment(unitAmount, validSourceIBAN, validTargetIBAN, valueDate, "reference")
       }
     }
   }
 }
 
-object TransferSpecification {
+object PaymentSpecification {
 
   object Assumptions {
 
-    /** assume zero transfer value as an amount of 0.00 euro */
-    val zeroValue: Amount = 0
+    /** assume a zero payment amount to equal 0.00 euro */
+    val zeroAmount: Amount = 0
 
-    /** assume unit transfer value as an amount of 0.01 euro */
-    val unitValue: Amount = 1
+    /** assume a unit payment amount to equal 0.01 euro */
+    val unitAmount: Amount = 1
 
-    /** assume valid transfer values in the range of 0.01 to 1,000,000.00 euro */
-    val validValues = Gen.choose[Amount](unitValue, 100000000)
+    /** assume valid payment amounts in the range of 0.01 to 1,000,000.00 euro */
+    val validAmounts = Gen.choose[Amount](unitAmount, 100000000)
 
-    /** assume a valid transfer value sample from validValues */
-    val validValue  = validValues.sample.get
+    /** assume a valid payment amount to sample from validAmounts */
+    val validAmount = validAmounts.sample.get
 
-    /** assume typically known invalid transfer values to be: */
-    val invalidValues = Table[Amount]("value", 0, -1, Long.MinValue)
+    /** assume typically known invalid payment amounts to be: */
+    val invalidAmounts = Table[Amount]("amount", 0, -1, Long.MinValue)
 
-    /** assume transfers between bank accounts located in either the BE, NL or DE */
+    /** assume payments between bank accounts located in either BE, NL or DE */
     val bankAccountCountries: Seq[String] = Array("BE", "NL", "DE")
 
     // TODO generate valid IBANs instead of the IBAN's country code.

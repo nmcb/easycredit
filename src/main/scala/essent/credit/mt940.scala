@@ -21,7 +21,7 @@ case class MT940Transfer
   transactionTypeID:    TransactionTypeID,  // TODO Q: Reference Match ? (or event ordering)
   reference:            String,             // TODO Q: Reference Match ? (also some description)
   mt940DocumentID:      MT940DocumentID,    // TODO Q: Reference Match ? (traceability)
-  paymentDescription:   String,             // TODO Q: Reference Match ? (transfer versus payment)
+  paymentDescription:   String,             // TODO Q: Reference Match ?
 
   transferFncAmount:    Amount,             // TODO Q: Meaning ?
 

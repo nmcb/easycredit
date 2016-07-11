@@ -12,7 +12,7 @@ package object credit {
   type Reference         = String
 
   // MT940 / ABNAmro
-  type MT940             = Seq[Transfer]
+  type MT940             = Seq[Payment]
 
   // UFI
   type JournalID         = String       // validate domain
@@ -26,7 +26,7 @@ package object credit {
   type EndToEndID        = String
 
   /** TODO validate required domain types below after the `mt940.scala`
-    * has been minimized into `domain.Transfer`
+    * has been minimized into `domain.Payment`
     **/
 
   // Common
