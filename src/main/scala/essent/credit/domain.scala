@@ -3,7 +3,8 @@ package essent.credit
 import java.lang.System._
 import java.util.UUID._
 
-abstract class Event {
+trait Event
+{
   /** The factual period in which this event was constructed, resolution in millis. */
   val timestamp: Long = currentTimeMillis()
 
@@ -63,14 +64,44 @@ case class Payment
     */
   reference: Reference
 )
-extends Event {
-  import Payment._
+extends Event
+{
+  import CreditDomain._
   require (amount > 0, s"must be non-zero and positive, amount is '${amount}'")
-  require (source != target, s"may not equal, source, target is '${source}'")
-  require (isValidDateLiteral(valueDate), s"must match YYYY-MM-DD, valueDate is '${valueDate}'")
+  require (source != target, s"may not be equal, source and target are both '${source}'")
+  require (isValidDateLiteral(valueDate), s"must have YYYY-MM-DD format, valueDate is '${valueDate}'")
 }
 
-object Payment {
-  val DateLiteral = """([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])""".r
-  def isValidDateLiteral(date: Date) = DateLiteral.findFirstIn(date).isDefined
+object Ledger
+{
+  trait Bookable {
+    def debit: Amount  = amount(Debit)
+    def credit: Amount = amount(Credit)
+    def amount(side: Side): Amount
+  }
+
+  sealed trait Journal
+  case object BankJournal               extends Journal
+  case object AccountsReceivableJournal extends Journal
+
+  sealed trait Side
+  case object Debit  extends Side
+  case object Credit extends Side
+
+  case class Line(journal: Journal, amount: Amount, side: Side) {
+    require (amount > 0, s"must be non-zero and positive, amount is '${amount}'")
+  }
+
+  object Line {
+    def amountsTo(lines: Seq[Line])(side: Side): Amount =
+      lines.filter(_.side == side).map(l => l.amount).sum[Amount]
+  }
+
+  case class Entry(lines: Seq[Line], date: Date) extends Event with Bookable {
+    import CreditDomain._
+    import Line._
+    require (debit == credit , s"should be balanced, debit is '${debit}', credit is '${credit}'")
+    require (isValidDateLiteral(date), s"must have YYYY-MM-DD format, valueDate is '${date}'")
+    override def amount(side: Side): Amount = amountsTo(lines)(side)
+  }
 }

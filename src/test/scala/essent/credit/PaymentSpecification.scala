@@ -9,9 +9,9 @@ import org.scalatest.prop.Tables.Table
 class PaymentSpecification extends PropSpec with PropertyChecks {
 
   import PaymentSpecification.Assumptions._
-  import Payment._
+  import CreditDomain._
 
-  property("payment should be constructable with valid parameters") {
+  property("payment; only constructable with valid parameters") {
     forAll (validAmounts, validIBANs, validIBANs, validValueDates) {
       (amount: Amount, source: IBAN, target: IBAN, valueDate: Date) => {
         whenever(source != target) {
@@ -24,7 +24,7 @@ class PaymentSpecification extends PropSpec with PropertyChecks {
     }
   }
 
-  property("amounts must be positive and non-zero") {
+  property("payment amount; is positive and non-zero") {
     forAll (invalidAmounts) { (amount: Amount) =>
       an[IllegalArgumentException] should be thrownBy {
         Payment(amount, validSourceIBAN, validTargetIBAN, validValueDate, "reference")
@@ -32,7 +32,7 @@ class PaymentSpecification extends PropSpec with PropertyChecks {
     }
   }
 
-  property("source and target may not be equal") {
+  property("payment source and target; are not equal") {
     forAll (validIBANs) { (target: IBAN) =>
       an[IllegalArgumentException] should be thrownBy {
         val source = target
@@ -41,7 +41,7 @@ class PaymentSpecification extends PropSpec with PropertyChecks {
     }
   }
 
-  property("value date must be represented in `YYYY-MM-DD` format") {
+  property("payment value date; is represented in `YYYY-MM-DD` format") {
     forAll (invalidValueDates) { (valueDate: Date) =>
       an[IllegalArgumentException] should be thrownBy {
         Payment(unitAmount, validSourceIBAN, validTargetIBAN, valueDate, "reference")

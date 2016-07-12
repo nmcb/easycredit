@@ -40,4 +40,9 @@ package object credit {
   type MT940DocumentID   = String       // guessed, validate domain
   type LedgerID          = String       // guessed, validate domain
   type ReversalCode      = String
+
+  object CreditDomain {
+    val DateLiteral = """([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])""".r
+    def isValidDateLiteral(repr: String) = DateLiteral.findFirstIn(repr).isDefined
+  }
 }

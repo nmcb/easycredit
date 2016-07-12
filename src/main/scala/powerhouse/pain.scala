@@ -1,7 +1,8 @@
-package essent
-package credit
+package powerhouse
 
 import java.util.{Date => JDate}
+
+import essent.credit._
 
 case class IncassoTransfer
 (
