@@ -67,9 +67,9 @@ case class Payment
 extends Event
 {
   import CreditDomain._
-  require (amount > 0, s"must be non-zero and positive, amount is '${amount}'")
-  require (source != target, s"may not be equal, source and target are both '${source}'")
-  require (isValidDateLiteral(valueDate), s"must have YYYY-MM-DD format, valueDate is '${valueDate}'")
+  require (amount > 0, s"must be non-zero and positive, amount is '$amount'")
+  require (source != target, s"may not be equal, source and target are both '$source'")
+  require (isValidDateLiteral(valueDate), s"must have YYYY-MM-DD format, valueDate is '$valueDate'")
 }
 
 object Ledger
@@ -89,7 +89,7 @@ object Ledger
   case object Credit extends Side
 
   case class Line(journal: Journal, amount: Amount, side: Side) {
-    require (amount > 0, s"must be non-zero and positive, amount is '${amount}'")
+    require (amount > 0, s"must be non-zero and positive, amount is '$amount'")
   }
 
   object Line {
@@ -100,8 +100,9 @@ object Ledger
   case class Entry(lines: Seq[Line], date: Date) extends Event with Bookable {
     import CreditDomain._
     import Line._
-    require (debit == credit , s"should be balanced, debit is '${debit}', credit is '${credit}'")
-    require (isValidDateLiteral(date), s"must have YYYY-MM-DD format, valueDate is '${date}'")
+    require (lines.nonEmpty , s"must contain entry lines")
+    require (debit == credit , s"must be balanced, debit is '$debit', credit is '$credit'")
+    require (isValidDateLiteral(date), s"must have YYYY-MM-DD format, date is '$date'")
     override def amount(side: Side): Amount = amountsTo(lines)(side)
   }
 }
