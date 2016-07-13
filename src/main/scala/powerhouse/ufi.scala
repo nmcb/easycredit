@@ -1,7 +1,8 @@
 package powerhouse
 
+import powerhouse._
+
 import java.util.{Date => JDate}
-import essent.credit._
 
 sealed trait JournalType
 case object BankEntry    extends JournalType
