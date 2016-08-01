@@ -17,9 +17,9 @@ trait Event
 
 case class Payment
 (
-  /** The paid amount; positive.
+  /** The paid amount; positive and non-zero.
     *
-    * TODO Q: Do we need to register currency, e.g `EUR` ?
+    * TODO Q: Do we need to maintain currency, e.g `EUR` ?
     * TODO Q: Do we require floating point arithmetic ?
     * TODO Q: Do we require decimal or binary semantics ?
     */
@@ -51,18 +51,40 @@ case class Payment
     */
   valueDate: Date,
 
-  /** Payment description, employed if this payment requires a new ledger
-    * entry, either when automatically matched or manually, by a DM.
+  /** Payment information intended to match this payment with one or more
+    * future bookable events.  A payment is matched to these events auto-
+    * matically, employing the referential information provided in this
+    * payment, e.g. the amount or source and target account numbers, but
+    * only if the payment is accompanied with enough information to render
+    * future bookable event values and book entries for it.  Matching, and
+    * subsequent booking is known as 'the automated process'.  A payment
+    * reference models all information required to match, an electronic
+    * payment reference all information required to match automatically,
+    * a descriptive payment reference all payment information intended to
+    * match automatically, but minimally all payment information required
+    * to match by human decision.
     *
-    * A reference can be either a:
-    *  - Description of bank statement.
-    *  - Code by bank to indicate type of payment.
+    * Encoded in a reference can be either a:
+    *
+    *  - description of one or more future bookable events, a [[DRef]].
+    *  This type of reference contains an informative description of the
+    *  reason the payment was made.  References of the descriptive type
+    *  should be matched to future events automatically, but this is not
+    *  guaranteed, sometimes an end-user action or additional information
+    *  is required for a match.  The information contained in a descriptive
+    *  reference originates from the source of the payment.
+    *
+    *  - Code that uniquely identifies one or more future bookable events,
+    *  an [[ERef]].  An electronic references originates from the target
+    *  of a payment, it was provided by the target of this payment to the
+    *  bank previously, specifically intended to be able to match a future
+    *  payment (this one) to a future bookable event.  That is, an [[ERef]]
+    *  literal originate within the credit system runtime boundaries.
     *
     * TODO Q: On what system owned data matches this reference automatically ?
     * TODO Q: What is the mapping from MT940 to Reference ?
-    * TODO A: Is there usability in the the `EREF` attribute in the MT940 specification ?
     */
-  reference: Reference
+  ref: Ref
 )
 extends Event
 {
