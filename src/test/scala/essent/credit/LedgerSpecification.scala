@@ -17,7 +17,7 @@ class LedgerSpecification extends PropSpec with PropertyChecks {
     forAll (journals, validAmounts, sides) {
       (ledger: Journal, amount: Amount, side: Side) => {
         val line = Line(ledger, amount, side)
-        line.amount should be > zeroAmount
+        line.amount should be > Amount.zero
       }
     }
   }

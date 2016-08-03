@@ -16,7 +16,7 @@ class PaymentSpecification extends PropSpec with PropertyChecks {
       (amount: Amount, source: IBAN, target: IBAN, valueDate: Date) => {
         whenever(source != target) {
           val payment = Payment(amount, source, target, valueDate, "reference")
-          payment.amount should be > zeroAmount
+          payment.amount should be > Amount.zero
           payment.source should not be payment.target
           isValidDateLiteral(payment.valueDate) shouldBe true
         }
@@ -44,7 +44,7 @@ class PaymentSpecification extends PropSpec with PropertyChecks {
   property("payment; value date is represented in `YYYY-MM-DD` format") {
     forAll (invalidDateLiterals) { (valueDate: Date) =>
       an[IllegalArgumentException] should be thrownBy {
-        Payment(unitAmount, someSourceIBAN, someTargetIBAN, valueDate, "reference")
+        Payment(Amount.unit, someSourceIBAN, someTargetIBAN, valueDate, "reference")
       }
     }
   }
@@ -52,14 +52,8 @@ class PaymentSpecification extends PropSpec with PropertyChecks {
 
 object PaymentSpecification {
 
-  /** assume a zero amount to equal 0.00 euro */
-  val zeroAmount: Amount = 0
-
-  /** assume a unit amount to equal 0.01 euro */
-  val unitAmount: Amount = 1
-
   /** assume valid payment amounts in the range of 0.01 to 1,000,000.00 euro */
-  val validAmounts = Gen.choose[Amount](unitAmount, 100000000)
+  val validAmounts = Gen.choose[Amount](Amount.unit, 100000000)
 
   /** assume some valid payment amount to sample from validAmounts */
   val someAmount = validAmounts.sample.get

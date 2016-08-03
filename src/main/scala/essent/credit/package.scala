@@ -11,6 +11,11 @@ package object credit {
   // TODO make ERef and DRef typed and sealed.
   type Ref               = String                // e.g. literally the reference information
 
+  object Amount {
+    val zero: Amount = 0
+    val unit: Amount = 1
+  }
+
   object CreditDomain {
     val DateLiteral = """([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])""".r
     def isValidDateLiteral(repr: String) = DateLiteral.findFirstIn(repr).isDefined
