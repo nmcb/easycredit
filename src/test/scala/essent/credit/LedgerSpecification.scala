@@ -30,7 +30,7 @@ class LedgerSpecification extends PropSpec with PropertyChecks {
     }
   }
 
-  property("journal entries; is validly constructable from valid parameters only") {
+  property("journal entry; is validly constructable from valid parameters only") {
     forAll (someBalancedLineSeqs) { (lines: Seq[Line]) => {
         forAll (validDateLiterals) { (date: Date) =>
           val entry = Entry(lines, date)
@@ -42,7 +42,7 @@ class LedgerSpecification extends PropSpec with PropertyChecks {
     }
   }
 
-  property("journal entries; have balanced journal lines") {
+  property("journal entry; has balanced journal lines") {
     forAll (someUnbalancedLineSeqs) { (lines: Seq[Line]) =>
         an[IllegalArgumentException] should be thrownBy {
           Entry(lines, someDateLiteral)
@@ -50,13 +50,13 @@ class LedgerSpecification extends PropSpec with PropertyChecks {
     }
   }
 
-  property("journal entries; have journal lines") {
+  property("journal entry; has at least one journal line") {
     an[IllegalArgumentException] should be thrownBy {
       Entry(emptyLineSeq, someDateLiteral)
     }
   }
 
-  property("journal entries; entry date is represented in `YYYY-MM-DD` format") {
+  property("journal entry; entry date is represented in `YYYY-MM-DD` format") {
     forAll (invalidDateLiterals) { (date: Date) =>
       an[IllegalArgumentException] should be thrownBy {
         Entry(someBalancedLineSeq, date)
