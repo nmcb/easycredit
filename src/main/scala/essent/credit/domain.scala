@@ -72,14 +72,15 @@ case class Payment
     *  should be matched to future events automatically, but this is not
     *  guaranteed, sometimes an end-user action or additional information
     *  is required for a match.  The information contained in a descriptive
-    *  reference originates from the source of the payment.
+    *  reference originates from within a system controlled by the source
+    *  of the payment.
     *
     *  - Code that uniquely identifies one or more future bookable events,
     *  an [[ERef]].  An electronic references originates from the target
     *  of a payment, it was provided by the target of this payment to the
     *  bank previously, specifically intended to be able to match a future
     *  payment (this one) to a future bookable event.  That is, an [[ERef]]
-    *  literal originate within the credit system runtime boundaries.
+    *  literal originates from within the credit system runtime boundaries.
     *
     * TODO Q: On what system owned data matches this reference automatically ?
     * TODO Q: What is the mapping from MT940 to Reference ?
