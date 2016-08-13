@@ -11,11 +11,11 @@ class PaymentSpecification extends PropSpec with PropertyChecks {
   import PaymentSpecification._
   import CreditDomain._
 
-  property("payment; is validly constructed from valid parameters only") {
-    forAll (validAmounts, validIBANs, validIBANs, validDateLiterals) {
-      (amount: Amount, source: IBAN, target: IBAN, valueDate: Date) => {
+  property("payment; is validly constructable from valid parameters only") {
+    forAll (validAmounts, validIBANs, validIBANs, validDateLiterals, validRefs) {
+      (amount: Amount, source: IBAN, target: IBAN, valueDate: Date, ref: Ref) => {
         whenever(source != target) {
-          val payment = Payment(amount, source, target, valueDate, "reference")
+          val payment = Payment(amount, source, target, valueDate, ref)
           payment.amount should be > Amount.zero
           payment.source should not be payment.target
           isValidDateLiteral(payment.valueDate) shouldBe true
@@ -27,7 +27,7 @@ class PaymentSpecification extends PropSpec with PropertyChecks {
   property("payment; has a positive and non-zero amount") {
     forAll (invalidAmounts) { (amount: Amount) =>
       an[IllegalArgumentException] should be thrownBy {
-        Payment(amount, someSourceIBAN, someTargetIBAN, someDateLiteral, "reference")
+        Payment(amount, someSourceIBAN, someTargetIBAN, someDateLiteral, someRef)
       }
     }
   }
@@ -36,7 +36,7 @@ class PaymentSpecification extends PropSpec with PropertyChecks {
     forAll (validIBANs) { (target: IBAN) =>
       an[IllegalArgumentException] should be thrownBy {
         val source = target
-        Payment(someAmount, source, target, someDateLiteral, "reference")
+        Payment(someAmount, source, target, someDateLiteral, someRef)
       }
     }
   }
@@ -44,7 +44,7 @@ class PaymentSpecification extends PropSpec with PropertyChecks {
   property("payment; value date is represented in `YYYY-MM-DD` format") {
     forAll (invalidDateLiterals) { (valueDate: Date) =>
       an[IllegalArgumentException] should be thrownBy {
-        Payment(Amount.unit, someSourceIBAN, someTargetIBAN, valueDate, "reference")
+        Payment(Amount.unit, someSourceIBAN, someTargetIBAN, valueDate, someRef)
       }
     }
   }
@@ -93,4 +93,13 @@ object PaymentSpecification {
     "27.02.13", "27-02-13", "27.2.13", "2013.II.27", "27/2-13", "2013.158904109",
     "MMXIII-II-XXVII", "MMXIII LVII/CCCLXV", "1330300800", "", "0", "1234567890"
   )
+
+  /** assume valid references to be electronic, literal numeric strings */
+  // TODO generate DRef's
+  val validRefs: Gen[Ref] = for {
+    ref <- Gen.numStr
+  } yield ERef(ref)
+
+  /** some reference, sampled from valid references */
+  val someRef = validRefs.sample.get
 }

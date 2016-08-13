@@ -5,10 +5,10 @@ import java.util.UUID._
 
 trait Event
 {
-  /** The factual period in which this event was constructed, resolution in millis. */
+  /** The factual datum in which this event was constructed, resolution in millis. */
   val timestamp: Long = currentTimeMillis()
 
-  /** Identifies this event, universally unique with respect to timestamp and version. */
+  /** Identifies this event, universally unique with respect to version. */
   val uuid: UUID = randomUUID()
 
   /** The event's version, identifies the informational structure that is captured. */
@@ -64,9 +64,9 @@ case class Payment
     * match automatically, but minimally all payment information required
     * to match by human decision.
     *
-    * Encoded in a reference can be either a:
+    * A reference can be either a:
     *
-    *  - description of one or more future bookable events, a [[DRef]].
+    *  - Description of one or more future bookable events, a [[DRef]].
     *  This type of reference contains an informative description of the
     *  reason the payment was made.  References of the descriptive type
     *  should be matched to future events automatically, but this is not
@@ -82,8 +82,7 @@ case class Payment
     *  payment (this one) to a future bookable event.  That is, an [[ERef]]
     *  literal originates from within the credit system runtime boundaries.
     *
-    * TODO Q: On what system owned data matches this reference automatically ?
-    * TODO Q: What is the mapping from MT940 to Reference ?
+    * TODO Q: What is the mapping from MT940 to a reference ?  (ERef = EREF)
     */
   ref: Ref
 )
@@ -97,6 +96,10 @@ extends Event
 
 object Ledger
 {
+  sealed trait Side
+  case object Debit  extends Side
+  case object Credit extends Side
+
   trait Bookable {
     def debit: Amount  = amount(Debit)
     def credit: Amount = amount(Credit)
@@ -106,10 +109,6 @@ object Ledger
   sealed trait Journal
   case object BankJournal               extends Journal
   case object AccountsReceivableJournal extends Journal
-
-  sealed trait Side
-  case object Debit  extends Side
-  case object Credit extends Side
 
   case class Line(journal: Journal, amount: Amount, side: Side) {
     require (amount > 0, s"must be non-zero and positive, amount is '$amount'")
