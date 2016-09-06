@@ -59,7 +59,7 @@ object PaymentSpecification {
   val someAmount = validAmounts.sample.get
 
   /** assume typically known invalid payment amounts to be: */
-  val invalidAmounts = Table[Amount]("amount", 0, -1, Long.MinValue)
+  val invalidAmounts = Table[Amount]("amount", Amount.zero, -1, Long.MinValue)
 
   /** assume payments between bank accounts located in either BE, NL or DE */
   val bankAccountCountries: Seq[String] = Array("BE", "NL", "DE")
