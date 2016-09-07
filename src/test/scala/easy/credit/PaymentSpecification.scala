@@ -1,4 +1,4 @@
-package essent.credit
+package easy.credit
 
 import org.scalacheck.Gen
 import org.scalatest.PropSpec

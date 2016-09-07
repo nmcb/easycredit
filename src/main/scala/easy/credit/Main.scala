@@ -1,4 +1,4 @@
-package essent.credit
+package easy.credit
 
 object Main extends App {
   val a = 2

@@ -1,13 +1,13 @@
-val ProjectName      = "ez-credit"
-val OrganisationName = "essent"
-val CreditVersion    = "0.0.1"
+val ProjectName      = "credit"
+val OrganisationName = "easy"
+val ProjectVersion   = "0.0.1"
 
 val AkkaVersion      = "2.4.0"
 val ScalaVersion     = "2.11.8"
 
 def common: Seq[Setting[_]] = Seq(
   organization := OrganisationName,
-  version      := CreditVersion,
+  version      := ProjectVersion,
   scalaVersion := ScalaVersion
 )
 

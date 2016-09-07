@@ -1,4 +1,4 @@
-package essent
+package easy
 
 import akka.actor.ActorSystem
 import org.scalatest.FunSpec

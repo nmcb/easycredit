@@ -1,4 +1,4 @@
-package essent.credit
+package easy.credit
 
 import java.lang.System._
 import java.util.UUID._

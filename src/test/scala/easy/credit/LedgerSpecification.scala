@@ -1,6 +1,6 @@
-package essent.credit
+package easy.credit
 
-import essent.credit.Ledger._
+import easy.credit.Ledger._
 import org.scalacheck.Gen
 import org.scalatest.Matchers._
 import org.scalatest.PropSpec
