@@ -1,6 +1,6 @@
 package easy.credit
 
-import org.scalacheck.Gen
+import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.PropSpec
 import org.scalatest.prop.PropertyChecks
 import org.scalatest.Matchers._
@@ -52,17 +52,14 @@ class PaymentSpecification extends PropSpec with PropertyChecks {
 
 object PaymentSpecification {
 
+  /** assume payments between bank accounts located in either BE, NL or DE */
+  val bankAccountCountries: Seq[String] = Array("BE", "NL", "DE")
+
   /** assume valid payment amounts in the range of 0.01 to 1,000,000.00 euro */
   val validAmounts = Gen.choose[Amount](Amount.unit, 100000000)
 
-  /** assume some valid payment amount to sample from validAmounts */
-  val someAmount = validAmounts.sample.get
-
   /** assume typically known invalid payment amounts to be: */
   val invalidAmounts = Table[Amount]("amount", Amount.zero, -1, Long.MinValue)
-
-  /** assume payments between bank accounts located in either BE, NL or DE */
-  val bankAccountCountries: Seq[String] = Array("BE", "NL", "DE")
 
   // TODO generate valid IBANs instead of the IBAN's country code.
   val validIBANs = for {
@@ -70,21 +67,12 @@ object PaymentSpecification {
     sequenceNumber <- Gen.choose[Int](0, 99)
   } yield f"$countryCode%s$sequenceNumber%02d"
 
-  /** assume some valid source IBAN sample from validIBANs */
-  val someSourceIBAN = validIBANs.sample.get
-
-  /** assume some valid target IBAN sample from validIBANs other than some source IBAN */
-  val someTargetIBAN = validIBANs.retryUntil(_ != someSourceIBAN).sample.get
-
   /** assume valid date literals to match ISO-8601's YYYY-MM-DD format */
   val validDateLiterals: Gen[Date] = for {
     year  <- Gen.choose(0, 9999)
     month <- Gen.choose(1, 12)
     day   <- Gen.choose(1, 31)
   } yield f"$year%04d-$month%02d-$day%02d"
-
-  /** some date literal, sampled from valid date literals */
-  val someDateLiteral = validDateLiterals.sample.get
 
   /** known invalid value literals violate ISO-8601's YYYY-MM-DD format */
   val invalidDateLiterals = Table[Date]("valueDate",
@@ -100,6 +88,29 @@ object PaymentSpecification {
     ref <- Gen.numStr
   } yield ERef(ref)
 
+  val validPayments: Gen[Payment] = for {
+    amount    <- validAmounts
+    source    <- validIBANs
+    target    <- validIBANs.retryUntil(t => t != source)
+    valueDate <- validDateLiterals
+    ref       <- validRefs
+  } yield Payment(amount, source, target, valueDate, ref)
+
+  implicit val arbitraryPayment = Arbitrary(validPayments)
+
+  /** assume some valid payment amount to sample from validAmounts */
+  val someAmount = validAmounts.sample.get
+
+  /** some date literal, sampled from valid date literals */
+  val someDateLiteral = validDateLiterals.sample.get
+
+  /** assume some valid source IBAN sample from validIBANs */
+  val someSourceIBAN = validIBANs.sample.get
+
+  /** assume some valid target IBAN sample from validIBANs other than some source IBAN */
+  val someTargetIBAN = validIBANs.retryUntil(_ != someSourceIBAN).sample.get
+
   /** some reference, sampled from valid references */
   val someRef = validRefs.sample.get
+
 }
