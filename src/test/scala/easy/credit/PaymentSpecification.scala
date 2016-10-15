@@ -11,15 +11,11 @@ class PaymentSpecification extends PropSpec with PropertyChecks {
   import PaymentSpecification._
   import CreditDomain._
 
-  property("payment; is validly constructable from valid parameters only") {
-    forAll (validAmounts, validIBANs, validIBANs, validDateLiterals, validRefs) {
-      (amount: Amount, source: IBAN, target: IBAN, valueDate: Date, ref: Ref) => {
-        whenever(source != target) {
-          val payment = Payment(amount, source, target, valueDate, ref)
-          payment.amount should be > Amount.zero
-          payment.source should not be payment.target
-          isValidDateLiteral(payment.valueDate) shouldBe true
-        }
+  property("payment; is valid on construction") {
+    forAll { payment: Payment => {
+        payment.amount should be > Amount.zero
+        payment.source should not be payment.target
+        isValidDateLiteral(payment.valueDate) shouldBe true
       }
     }
   }
@@ -96,7 +92,7 @@ object PaymentSpecification {
     ref       <- validRefs
   } yield Payment(amount, source, target, valueDate, ref)
 
-  implicit val arbitraryPayment = Arbitrary(validPayments)
+  implicit val arbitraryPayment: Arbitrary[Payment] = Arbitrary(validPayments)
 
   /** assume some valid payment amount to sample from validAmounts */
   val someAmount = validAmounts.sample.get
