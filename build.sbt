@@ -4,7 +4,7 @@ val ProjectVersion   = "0.0.1"
 
 val ScalaVersion      = "2.12.2"
 val AkkaVersion       = "2.5.0"
-val ScalaTestVersion  = "3.0.1"
+val ScalaTestVersion  = "3.0.9"
 val ScalaCheckVersion = "1.13.4"
 
 def common: Seq[Setting[_]] = Seq(
