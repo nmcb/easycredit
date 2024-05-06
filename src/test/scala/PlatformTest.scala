@@ -33,7 +33,7 @@ class PlatformTest extends FunSpec {
     //     case u: java.net.URLClassLoader => u.getURLs() ++ urlses(cl.getParent)
     //     case _ => urlses(cl.getParent)
     //   }
-    //   // scalacheck_2.12/jars/scalacheck_2.12-1.13.4
+    //   // scalacheck_2.12/jars/scalacheck_2.12-1.13.5
     //   val  urls = urlses(getClass.getClassLoader)
     //   println(urls.mkString("\n"))
     // }
