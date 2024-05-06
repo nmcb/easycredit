@@ -21,7 +21,7 @@ class PlatformTest extends FunSpec {
     }
 
     it("should have the correct ScalaTest version") {
-      ScalaTestVersion should be ("3.0.1")
+      ScalaTestVersion should be ("3.0.9")
     }
     it("should have the correct Scalactic version") {
       ScalacticVersion should be ("3.0.1")
