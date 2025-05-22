@@ -14,7 +14,7 @@ class PlatformTest extends FunSpec {
       System.getProperty("java.version") should startWith("1.8.0")
     }
     it("should have the correct Scala version") {
-      scala.util.Properties.versionNumberString should be("2.12.20")
+      scala.util.Properties.versionNumberString should be("2.13.16")
     }
     it("should have the correct Akka version") {
       ActorSystem.Version should be("2.5.0")
