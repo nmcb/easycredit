@@ -1,13 +1,14 @@
 package easy.credit
 
 import easy.credit.Ledger._
-import org.scalacheck.Gen
-import org.scalatest.Matchers._
-import org.scalatest.PropSpec
-import org.scalatest.prop.PropertyChecks
-import org.scalatest.prop.Tables.Table
 
-class LedgerSpecification extends PropSpec with PropertyChecks {
+import org.scalatest.propspec._
+import org.scalatest.matchers.should.Matchers._
+import org.scalatest.prop.Tables._
+import org.scalatestplus.scalacheck._
+import org.scalacheck._
+
+class LedgerSpecification extends AnyPropSpec with ScalaCheckPropertyChecks {
 
   import PaymentSpecification._
   import LedgerSpecification._

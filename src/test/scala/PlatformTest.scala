@@ -1,13 +1,14 @@
 package easy
 
 import akka.actor.ActorSystem
-import org.scalatest.FunSpec
-import org.scalatest.Matchers._
+import org.scalatest._
+import funspec._
+import matchers.should.Matchers._
 
 import org.scalatest.ScalaTestVersion
 import org.scalactic.ScalacticVersion
 
-class PlatformTest extends FunSpec {
+class PlatformTest extends AnyFunSpec {
 
   describe("The runtime platform") {
     it("should have the correct Java version") {
@@ -21,10 +22,10 @@ class PlatformTest extends FunSpec {
     }
 
     it("should have the correct ScalaTest version") {
-      ScalaTestVersion should startWith ("3.0.")
+      ScalaTestVersion should startWith ("3.2.")
     }
     it("should have the correct Scalactic version") {
-      ScalacticVersion should startWith ("3.0.")
+      ScalacticVersion should startWith ("3.2.")
     }
 
     // it("should have the correct ScalaCheck version") {
