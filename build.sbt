@@ -21,10 +21,11 @@ lazy val root = (project in file("."))
   .settings(
     name := ProjectName,
     libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-cluster"  % AkkaVersion,
-      "com.typesafe.akka" %% "akka-testkit"  % AkkaVersion       % "test",
-      "org.scalactic"     %% "scalactic"     % ScalaTestVersion,
-      "org.scalatest"     %% "scalatest"     % ScalaTestVersion  % "test",
-      "org.scalacheck"    %% "scalacheck"    % ScalaCheckVersion % "test"
+      "com.typesafe.akka" %% "akka-cluster"    % AkkaVersion,
+      "com.typesafe.akka" %% "akka-testkit"    % AkkaVersion          % "test",
+      "org.scalactic"     %% "scalactic"       % ScalaTestVersion,
+      "org.scalatest"     %% "scalatest"       % ScalaTestVersion     % "test",
+      "org.scalacheck"    %% "scalacheck"      % ScalaCheckVersion    % "test",
+      "org.scalatestplus" %% "scalacheck-1-18" % ScalaTestPlusVersion % "test"
     )
   )
