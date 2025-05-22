@@ -1,12 +1,12 @@
 package easy.credit
 
-import org.scalacheck.{Arbitrary, Gen}
-import org.scalatest.PropSpec
-import org.scalatest.prop.PropertyChecks
-import org.scalatest.Matchers._
-import org.scalatest.prop.Tables.Table
+import org.scalatest.propspec._
+import org.scalatest.matchers.should.Matchers._
+import org.scalatest.prop.Tables._
+import org.scalatestplus.scalacheck._
+import org.scalacheck._
 
-class PaymentSpecification extends PropSpec with PropertyChecks {
+class PaymentSpecification extends AnyPropSpec with ScalaCheckPropertyChecks {
 
   import PaymentSpecification._
   import CreditDomain._
