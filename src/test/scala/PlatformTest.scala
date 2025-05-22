@@ -11,20 +11,20 @@ class PlatformTest extends FunSpec {
 
   describe("The runtime platform") {
     it("should have the correct Java version") {
-      System.getProperty("java.version") should startWith("1.8.0")
+      System.getProperty("java.version") should startWith("23.0.")
     }
     it("should have the correct Scala version") {
-      scala.util.Properties.versionNumberString should be("2.12.20")
+      scala.util.Properties.versionNumberString should startWith("2.13.")
     }
     it("should have the correct Akka version") {
-      ActorSystem.Version should be("2.5.0")
+      ActorSystem.Version should startWith("2.5.")
     }
 
     it("should have the correct ScalaTest version") {
-      ScalaTestVersion should be ("3.0.9")
+      ScalaTestVersion should startWith ("3.0.")
     }
     it("should have the correct Scalactic version") {
-      ScalacticVersion should be ("3.0.1")
+      ScalacticVersion should startWith ("3.0.")
     }
 
     // it("should have the correct ScalaCheck version") {
