@@ -3,7 +3,7 @@ val OrganisationName = "easy"
 val ProjectVersion   = "0.0.1"
 
 val ScalaVersion      = "2.13.16"
-val AkkaVersion       = "2.5.0"
+val AkkaVersion       = "2.5.32"
 val ScalaTestVersion  = "3.0.9"
 val ScalaCheckVersion = "1.18.1"
 
@@ -12,6 +12,8 @@ def common: Seq[Setting[_]] = Seq(
   version      := ProjectVersion,
   scalaVersion := ScalaVersion
 )
+
+resolvers += "Akka library repository".at("https://repo.akka.io/maven")
 
 lazy val root = (project in file("."))
   .settings( common: _*)
