@@ -49,7 +49,7 @@ class PaymentSpecification extends AnyPropSpec with ScalaCheckPropertyChecks {
 object PaymentSpecification {
 
   /** assume payments between bank accounts located in either BE, NL or DE */
-  val bankAccountCountries: Seq[String] = Array("BE", "NL", "DE")
+  val bankAccountCountries: Seq[String] = Array("BE", "NL", "DE").toIndexedSeq
 
   /** assume valid payment amounts in the range of 0.01 to 1,000,000.00 euro */
   val validAmounts = Gen.choose[Amount](Amount.unit, 100000000)

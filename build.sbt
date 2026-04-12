@@ -2,22 +2,30 @@ val ProjectName      = "credit"
 val OrganisationName = "easy"
 val ProjectVersion   = "0.0.1"
 
-val ScalaVersion         = "2.13.18"
 val AkkaVersion          = "2.5.32"
 val ScalaTestVersion     = "3.2.20"
 val ScalaCheckVersion    = "1.19.0"
 val ScalaTestPlusVersion = "3.2.19.0"
 
-def common: Seq[Setting[_]] = Seq(
-  organization := OrganisationName,
-  version      := ProjectVersion,
-  scalaVersion := ScalaVersion
+ThisBuild / scalaVersion   := "2.13.18"
+ThisBuild / organization   := "nmcb"
+ThisBuild / version        := "0.0.1"
+ThisBuild / fork           := true
+ThisBuild / javaOptions    := Seq("-Xss1M")
+
+ThisBuild / scalacOptions ++= Seq(
+  "-encoding", "utf8",
+  "-feature",
+  "-language:implicitConversions",
+  "-language:existentials",
+  "-unchecked",
+  "-Werror",
+  "-deprecation"
 )
 
 resolvers += "Akka library repository".at("https://repo.akka.io/maven")
 
 lazy val root = (project in file("."))
-  .settings( common: _*)
   .settings(
     name := ProjectName,
     libraryDependencies ++= Seq(
