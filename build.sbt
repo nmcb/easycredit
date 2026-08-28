@@ -4,7 +4,7 @@ val ProjectVersion   = "0.0.1"
 
 val AkkaVersion          = "2.5.32"
 val ScalaTestVersion     = "3.2.20"
-val ScalaCheckVersion    = "1.19.0"
+val ScalaCheckVersion    = "1.20.0"
 val ScalaTestPlusVersion = "3.2.20.0"
 
 ThisBuild / scalaVersion   := "2.13.18"
