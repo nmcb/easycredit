@@ -15,10 +15,10 @@ class PlatformTest extends AnyFunSpec {
       System.getProperty("java.version") should startWith("23.0.")
     }
     it("should have the correct Scala version") {
-      scala.util.Properties.versionNumberString should startWith("2.13.")
+      scala.util.Properties.versionNumberString should startWith("3.9.")
     }
     it("should have the correct Akka version") {
-      ActorSystem.Version should startWith("2.5.")
+      ActorSystem.Version should startWith("2.8.")
     }
 
     it("should have the correct ScalaTest version") {

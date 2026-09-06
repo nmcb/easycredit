@@ -2,7 +2,7 @@ val ProjectName      = "credit"
 val OrganisationName = "easy"
 val ProjectVersion   = "0.0.1"
 
-val AkkaVersion          = "2.5.32"
+val AkkaVersion          = "2.8.8"
 val ScalaTestVersion     = "3.2.20"
 val ScalaCheckVersion    = "1.20.0"
 val ScalaTestPlusVersion = "3.2.20.0"
