@@ -7,7 +7,7 @@ val ScalaTestVersion     = "3.2.20"
 val ScalaCheckVersion    = "1.20.0"
 val ScalaTestPlusVersion = "3.2.20.0"
 
-ThisBuild / scalaVersion   := "3.9.0"
+ThisBuild / scalaVersion   := "3.10.0"
 ThisBuild / organization   := "nmcb"
 ThisBuild / version        := "0.0.1"
 ThisBuild / fork           := true
@@ -37,3 +37,11 @@ lazy val root = (project in file("."))
       "org.scalatestplus" %% "scalacheck-1-19" % ScalaTestPlusVersion % "test"
     )
   )
+
+ThisBuild / Compile / run / javaOptions ++= Seq(
+  "-Xmx4G",
+  "-Xss1G",
+  "-XX:+UseG1GC",
+  "--sun-misc-unsafe-memory-access=allow",
+  "--enable-native-access=ALL-UNNAMED"
+)
