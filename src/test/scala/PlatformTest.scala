@@ -1,5 +1,3 @@
-package easy
-
 import akka.actor.ActorSystem
 import org.scalatest._
 import funspec._
@@ -15,7 +13,7 @@ class PlatformTest extends AnyFunSpec {
       System.getProperty("java.version") should startWith("23.0.")
     }
     it("should have the correct Scala version") {
-      scala.util.Properties.versionNumberString should startWith("3.9.")
+      scala.util.Properties.versionNumberString should startWith("3.10.")
     }
     it("should have the correct Akka version") {
       ActorSystem.Version should startWith("2.8.")
