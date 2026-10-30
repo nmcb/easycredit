@@ -10,7 +10,7 @@ class PlatformTest extends AnyFunSpec {
 
   describe("The runtime platform") {
     it("should have the correct Java version") {
-      System.getProperty("java.version") should startWith("23.0.")
+      System.getProperty("java.version") should startWith("25.0.")
     }
     it("should have the correct Scala version") {
       scala.util.Properties.versionNumberString should startWith("3.10.")
